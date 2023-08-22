@@ -1,0 +1,55 @@
+ CREATE TABLE empglobe2
+(eno number(3) NOT NULL,
+name varchar(20),
+address varchar(20),
+ email varchar(20),
+sal FLOAT(8));
+
+create database link link1 connect to student19 identified by "studet19" using "mscit";
+
+CREATE DATABASE LINK link2
+CONNECT TO student19 
+IDENTIFIED BY "student19"
+USING 'mscit';
+
+CREATE DATABASE LINK link1
+CONNECT TO student19 IDENTIFIED BY 'student19'
+USING 'mscit';
+
+
+create or replace trigger verticalFragment
+after insert
+on empglobe
+for each row
+begin
+insert into empnode1 values(:new.eno,:new.name,:new.address);
+insert into empnode2@link1
+values(:new.eno,:new.email,:new.sal);
+end;
+
+insert into empglobe values(4,'E','jf','h@','85000');
+
+
+UPDATE empglobe
+SET column_name = 'varchar2(30)'
+
+WHERE condition;
+
+
+create or replace trigger horizontalFragment
+after insert
+on empglobe2
+for each row
+begin
+if (:new.sal > 10000 and :new.sal < 20000) then
+insert into emp101
+values(:new.eno,:new.name,:new.address,:new.email,:new.sal);
+else
+insert into emp102@link2
+values(:new.eno,:new.name,:new.address,:new.email,:new.sal);
+end if;
+end;
+/
+
+insert into empglobe2 values(3,'Akash','Mulund','akash@gmail.com','18000');
+
